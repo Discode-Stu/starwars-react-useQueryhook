@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { usePaginatedQuery, useQuery } from "react-query";
-import Person from "./Person";
+import Starship from "./Starship";
 
-const fetchPeople = async (key, page) => {
-  const res = await fetch(`http://swapi.dev/api/people/?page=${page}`);
+const fetchStarships= async (key, page) => {
+  const res = await fetch(`http://swapi.dev/api/starships/?page=${page}`);
   return res.json();
 };
 
-const People = () => {
+const Starships = () => {
   const [page, setPage] = useState(1);
   const { resolvedData, latestData, status } = usePaginatedQuery(
-    ["people", page],
-    fetchPeople
+    ["starships", page],
+    fetchStarships
   );
   // const { data, status } = useQuery("people", fetchPeople);
   // console.log(data);
 
   return (
     <div>
-      <h2>People</h2>
+      <h2>Starships</h2>
       {/* <p> {status} </p> */}
       {status === "error" && <div>Error fetching data</div>}
       {status === "loading" && <div>Loading data...</div>}
@@ -34,8 +34,8 @@ const People = () => {
           disabled={!latestData || !latestData.next}
           >Next page</button>
           <div>
-            {resolvedData.results.map((person) => (
-              <Person key={person.name} person={person} />
+            {resolvedData.results.map((starship) => (
+              <Starship key={starship.name} starship={starship} />
             ))}
           </div>
         </>
@@ -51,4 +51,4 @@ const People = () => {
   );
 };
 
-export default People;
+export default Starships;
