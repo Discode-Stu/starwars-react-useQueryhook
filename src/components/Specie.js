@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
 class Specie extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +13,7 @@ class Specie extends Component {
     axios.get(specie.homeworld).then((results) => {
       console.log("results", results.data.name);
 
-      this.setState( {
+      this.setState({
         homeWorld: results.data.name,
       });
       // console.log('state: ', this.state.homeWorld)
@@ -22,7 +21,7 @@ class Specie extends Component {
   };
 
   componentDidMount() {
-    this.fetchStarWars()
+    this.fetchStarWars();
   }
 
   render() {
@@ -39,12 +38,18 @@ class Specie extends Component {
         <p>Eye colors - {specie.eye_colors}</p>
         <p>Hair colors - {specie.hair_colors}</p>
         <p>Skin colors - {specie.skin_colors}</p>
-        <p>Homeworld -{homeWorld}</p>
-        {console.log('state:', homeWorld)}
+        <div>
+          {homeWorld ? (
+            <p>Homeworld -{homeWorld}</p>
+          ) : (
+            <p>Homeworld - unknown </p>
+          )}
+        </div>
+
+        {console.log("state:", homeWorld)}
       </div>
     );
   }
 }
 
 export default Specie;
-
