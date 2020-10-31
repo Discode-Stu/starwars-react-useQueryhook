@@ -8,6 +8,7 @@ class Person extends Component {
       homeworld: "",
       species: [],
       starships: [],
+      vehicles: []
     };
   }
 
@@ -36,21 +37,37 @@ class Person extends Component {
         this.setState({
           starships: this.state.starships.concat(results.data.name),
         });
-        console.log(person, ":", this.state.starships);
+        // console.log(person, ":", this.state.starships);
       });
     });
   };
+
+  fetchVehicles = () => {
+    const { person } = this.props;
+    person.vehicles.map((vehicle) => {
+      axios.get(vehicle).then((results) => {
+        this.setState({
+          vehicles: this.state.vehicles.concat(results.data.name),
+        });
+        console.log(person, ":", this.state.vehicles);
+      });
+    });
+  };
+
+  
 
   componentDidMount() {
     this.fetchHomeworld();
     this.fetchSpecies();
     this.fetchStarships();
+    this.fetchVehicles();
   }
 
   render() {
     const { person } = this.props;
-    const { homeworld, species, starships } = this.state;
+    const { homeworld, species, starships, vehicles } = this.state;
     const formattedStarship = starships.join(", ");
+    const formattedVehicle = vehicles.join(", ");
     return (
       <div className="card">
         <h3>{person.name}</h3>
@@ -70,7 +87,12 @@ class Person extends Component {
         <div>{species ? <p>Species -{species}</p> : null}</div>
         <div>
           {person.starships == "" ? null : (
-            <span>Starships - {formattedStarship}</span>
+            <p>Starships - {formattedStarship}</p>
+          )}
+        </div>
+        <div>
+          {person.vehicles == "" ? null : (
+            <p>Vehicles - {formattedVehicle}</p>
           )}
         </div>
       </div>
